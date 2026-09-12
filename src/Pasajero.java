@@ -9,6 +9,6 @@ public class Pasajero {
         this.asiento=asiento;
     };
     public String toString(){
-        return "(" + id + "/" + nombre + "/" + asiento + ")";
+        return "(id: " + id + " / nombre: " + nombre + " / asiento " +asiento+")";
     };
 }

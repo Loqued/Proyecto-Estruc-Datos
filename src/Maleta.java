@@ -3,13 +3,13 @@ public class Maleta{
     private double peso;
     private String color;
 
-    public Maleta(int numero, double peso, String color){
-        this.id=id;
+    public Maleta(int id, double peso, String color){
+        this.id= id;
         this.peso=peso;
         this.color=color;
     };
 
     public String toString() {
-        return "(" + id + "/" + peso + "kg" + "/" + color + ")";
+        return "(id: " + id + " / peso: " + peso + "kg" + " / color: " + color + ")";
     };
 }

@@ -4,6 +4,7 @@ public class Main{
     public static void main(String[] args){
         ArrayList<Pasajero> pasajeros = new ArrayList<>(5);
         ArrayList<Maleta> maletas = new ArrayList<>(5);
+        Gestor gestor = new Gestor(pasajeros, maletas);
 
         pasajeros.add(new Pasajero(1, "Andres Ferrán", "20C"));
         pasajeros.add(new Pasajero(2, "Carlos Uribe", "4B"));
@@ -16,5 +17,8 @@ public class Main{
         maletas.add(new Maleta(3, 12.6, "Rojo Oscuro"));
         maletas.add(new Maleta(4, 17.3, "Verde Oscuro"));
         maletas.add(new Maleta(5, 17.3, "Negro"));
+
+        //Buscar maleta del pasajero con id 4
+        gestor.buscarMaletas(4);
     };
 }
