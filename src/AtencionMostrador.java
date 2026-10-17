@@ -14,10 +14,10 @@ public class AtencionMostrador<E, F> {
         while (!pasajeros.estavacio()) {
             int size = pasajeros.getSize();
             int np;
-            if (size <= 2) {
-                np = size;
+            if (size == 1) {
+                np = 1;
             } else {
-                np = rd.nextInt(size) + 1;
+                np = rd.nextInt(size/2) + 1;
             }
             NodoProceso<E, F> nodoMostrador = mostradores.getprimero();
             for (int i = 0; i < np; i++) {
