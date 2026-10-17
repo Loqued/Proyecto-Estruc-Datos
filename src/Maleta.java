@@ -7,7 +7,7 @@ public class Maleta{
         this.id= id;
         this.peso=peso;
         this.color=color;
-    };
+    }
 
     public String toString() {
         return "(id: " + id + " / peso: " + peso + "kg" + " / color: " + color + ")";

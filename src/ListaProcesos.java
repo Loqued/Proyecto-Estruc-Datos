@@ -1,16 +1,16 @@
-public class ListaProcesos<E> {
-    private NodoProceso<E> primero;
-    private NodoProceso<E> ultimo;
+public class ListaProcesos<E,F> {
+    private NodoProceso<E,F> primero;
+    private NodoProceso<E,F> ultimo;
 
     public ListaProcesos() {
         primero = ultimo = null;
     }
 
-    public NodoProceso<E> getprimero() {
+    public NodoProceso<E,F> getprimero() {
         return primero;
     }
 
-    public NodoProceso<E> getultimo() {
+    public NodoProceso<E,F> getultimo() {
         return ultimo;
     }
 
@@ -18,8 +18,16 @@ public class ListaProcesos<E> {
         return primero == null;
     }
 
-    public void ingresarnuevoproceso(E proceso, ListaEnlazada<E> lista) {
-        NodoProceso<E> nd = new NodoProceso<>(proceso, lista);
+    public boolean estavacialista(){
+        NodoProceso<E,F> p;
+        for(p=primero; p!=null; p = p.getNext()){
+            if(!p.getLista().estavacio()) {return false;};
+        }
+        return true;
+    }
+
+    public void ingresarnuevoproceso(E proceso, ListaEnlazada<F> lista) {
+        NodoProceso<E,F> nd = new NodoProceso<>(proceso, lista);
         if (nohayfila()) {
             primero = ultimo = nd;
         } else {
@@ -29,11 +37,20 @@ public class ListaProcesos<E> {
     }
 
     public void imprimir() {
-        NodoProceso<E> p = primero;
+        NodoProceso<E,F> p = primero;
         while (p != null) {
             System.out.println(p.getData());
             p.getLista().imprimir();
             p = p.getNext();
         }
+    }
+
+    public NodoProceso<E,F> getNodoxIdx(int pos){
+        NodoProceso<E,F> p=primero;
+        for(int i=0; i < pos; i++){
+            p = p.getNext();
+            if(p==null) return null;
+        }
+        return p;
     }
 }

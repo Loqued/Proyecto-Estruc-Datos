@@ -1,14 +1,14 @@
 public class Pasajero {
     private int id;
     private String nombre;
-    private String asiento;
+    private int cantmaleta;
 
-    public Pasajero(int id, String nombre, String asiento){
+    public Pasajero(int id, String nombre, int cantmaleta){
         this.id=id;
         this.nombre=nombre;
-        this.asiento=asiento;
+        this.cantmaleta=cantmaleta;
     };
     public String toString(){
-        return "(id: " + id + " / nombre: " + nombre + " / asiento " +asiento+")";
+        return "(id: " + id + " / nombre: " + nombre + " / maletas: " +cantmaleta+")";
     };
 }

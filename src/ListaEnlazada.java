@@ -16,7 +16,15 @@ public class ListaEnlazada<E> {
             q = q.getNext();
         }
     }
-
+    public int getSize(){
+        NodoLista<E> q = first;
+        int total = 0;
+        while(q != null){
+            total = total + 1;
+            q = q.getNext();
+        }
+        return total;
+    }
     public boolean estavacio() {
         return first == null;
     }
@@ -49,9 +57,9 @@ public class ListaEnlazada<E> {
         return null;
     }
 
-    public NodoLista<E> eliminarxPos(NodoLista<E> q) {
-        if (q == first) {
-            first = q.getNext();
+    public NodoLista<E> eliminarxPos(NodoLista<E> q) {  // no puse eliminarPrimero en el caso de que se desee eliminar
+        if (q == first) {                               // otra posición diferente de la primera, tenga la liberta de
+            first = q.getNext();                        // y por eso lo puse como xPos en vez de primero.
             q.setNext(null);
             if (q == last) last = null;
         } else {
@@ -59,6 +67,17 @@ public class ListaEnlazada<E> {
             r.setNext(q.getNext());
             q.setNext(null);
             if (q == last) last = r;
+        }
+        return q;
+    }
+
+    public NodoLista<E> eliminarPrim() {
+        if (estavacio()) { return null; }
+        NodoLista<E> q = first;
+        first = q.getNext();
+        q.setNext(null);
+        if (q == last) {
+            last = null;
         }
         return q;
     }
