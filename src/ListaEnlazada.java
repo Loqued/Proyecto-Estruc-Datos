@@ -35,6 +35,7 @@ public class ListaEnlazada<E> {
             first = last = nuevo;
         } else {
             last.setNext(nuevo);
+            nuevo.setPrev(last);
             last = nuevo;
         }
     }
@@ -43,31 +44,32 @@ public class ListaEnlazada<E> {
         NodoLista<E> nuevo = new NodoLista<>(cont);
         if (estavacio()) {
             last = nuevo;
+        } else {
+            first.setPrev(nuevo);
         }
         nuevo.setNext(first);
         first = nuevo;
     }
 
     public NodoLista<E> buscarAnt(NodoLista<E> q) {
-        for (NodoLista<E> p = first; p != null; p = p.getNext()) {
-            if (p.getNext() == q) {
-                return p;
-            }
-        }
-        return null;
+        return q.getPrev();
     }
 
-    public NodoLista<E> eliminarxPos(NodoLista<E> q) {  // no puse eliminarPrimero en el caso de que se desee eliminar
-        if (q == first) {                               // otra posición diferente de la primera, tenga la liberta de
-            first = q.getNext();                        // y por eso lo puse como xPos en vez de primero.
-            q.setNext(null);
-            if (q == last) last = null;
+    public NodoLista<E> eliminarxPos(NodoLista<E> q) {
+        NodoLista<E> r = q.getPrev();
+        NodoLista<E> s = q.getNext();
+        if (q == first) {
+            first = s;
         } else {
-            NodoLista<E> r = buscarAnt(q);
-            r.setNext(q.getNext());
-            q.setNext(null);
-            if (q == last) last = r;
+            r.setNext(s);
         }
+        if (q == last) {
+            last = r;
+        } else {
+            s.setPrev(r);
+        }
+        q.setNext(null);
+        q.setPrev(null);
         return q;
     }
 
@@ -78,6 +80,8 @@ public class ListaEnlazada<E> {
         q.setNext(null);
         if (q == last) {
             last = null;
+        } else {
+            first.setPrev(null);
         }
         return q;
     }

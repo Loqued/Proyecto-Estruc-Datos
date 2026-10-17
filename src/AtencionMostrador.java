@@ -11,6 +11,7 @@ public class AtencionMostrador<E, F> {
     }
 
     public void ejecutar() {
+        NodoProceso<E, F> nodoMostrador = mostradores.getprimero();
         while (!pasajeros.estavacio()) {
             int size = pasajeros.getSize();
             int np;
@@ -19,7 +20,6 @@ public class AtencionMostrador<E, F> {
             } else {
                 np = rd.nextInt(size/2) + 1;
             }
-            NodoProceso<E, F> nodoMostrador = mostradores.getprimero();
             for (int i = 0; i < np; i++) {
                 System.out.println("iteración" + i + " " + nodoMostrador.getData());
                 NodoLista<F> nodoPasajero = pasajeros.eliminarPrim();
@@ -33,7 +33,7 @@ public class AtencionMostrador<E, F> {
             mostradores.imprimir();
         }
 
-        int nm = rd.nextInt(3) + 1;
+        int nm = rd.nextInt(mostradores.getSize()) + 1;
         NodoProceso<E, F> mostradorEscogido = mostradores.getNodoxIdx(nm - 1);
         NodoLista<F> pasajeroAtendido = mostradorEscogido.getLista().eliminarPrim();
         if (pasajeroAtendido != null) {

@@ -19,10 +19,12 @@ public class ListaProcesos<E,F> {
     }
 
     public boolean estavacialista(){
-        NodoProceso<E,F> p;
-        for(p=primero; p!=null; p = p.getNext()){
-            if(!p.getLista().estavacio()) {return false;};
-        }
+        if (nohayfila()) return true;
+        NodoProceso<E,F> p = primero;
+        do {
+            if(!p.getLista().estavacio()) {return false;}
+            p = p.getNext();
+        } while (p != primero);
         return true;
     }
 
@@ -34,22 +36,35 @@ public class ListaProcesos<E,F> {
             ultimo.setNext(nd);
             ultimo = nd;
         }
+        ultimo.setNext(primero);
     }
 
     public void imprimir() {
+        if (nohayfila()) return;
         NodoProceso<E,F> p = primero;
-        while (p != null) {
+        do {
             System.out.println(p.getData());
             p.getLista().imprimir();
             p = p.getNext();
-        }
+        } while (p != primero);
+    }
+
+    public int getSize(){
+        if (nohayfila()) return 0;
+        int total = 0;
+        NodoProceso<E,F> p = primero;
+        do {
+            total = total + 1;
+            p = p.getNext();
+        } while (p != primero);
+        return total;
     }
 
     public NodoProceso<E,F> getNodoxIdx(int pos){
-        NodoProceso<E,F> p=primero;
+        if (pos < 0 || pos >= getSize()) return null;
+        NodoProceso<E,F> p = primero;
         for(int i=0; i < pos; i++){
             p = p.getNext();
-            if(p==null) return null;
         }
         return p;
     }
