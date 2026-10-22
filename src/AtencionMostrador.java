@@ -1,43 +1,71 @@
 import java.util.Random;
 
-public class AtencionMostrador<E, F> {
-    private ListaEnlazada<F> pasajeros;
-    private ListaProcesos<E, F> mostradores;
+public class AtencionMostrador {
+    private ListaEnlazada<Pasajero> pasajeros;
+    private ListaProcesos<String, Pasajero> mostradores;
+    private ListaEnlazada<Maleta> LMaletas;
+    private ListaProcesos<String, Maleta> LM;
     private Random rd = new Random();
 
-    public AtencionMostrador(ListaEnlazada<F> pasajeros, ListaProcesos<E, F> mostradores) {
+
+    public AtencionMostrador(ListaEnlazada<Pasajero> pasajeros, ListaProcesos<String, Pasajero> mostradores, ListaEnlazada<Maleta> LMaletas, ListaProcesos<String, Maleta> LM) {
         this.pasajeros = pasajeros;
         this.mostradores = mostradores;
+        this.LMaletas = LMaletas;
+        this.LM = LM;
+    }
+
+    private NodoProceso<String, Pasajero> mostradorMasCorto() {
+        NodoProceso<String, Pasajero> mejor = mostradores.getprimero();
+        int min = mejor.getLista().getSize();
+        NodoProceso<String, Pasajero> p = mejor.getNext();
+        while (p != mostradores.getprimero()) {
+            int s = p.getLista().getSize();
+            if (s < min) {
+                min = s;
+                mejor = p;
+            }
+            p = p.getNext();
+        }
+        return mejor;
     }
 
     public void ejecutar() {
-        NodoProceso<E, F> nodoMostrador = mostradores.getprimero();
         while (!pasajeros.estavacio()) {
             int size = pasajeros.getSize();
-            int np;
-            if (size == 1) {
-                np = 1;
-            } else {
-                np = rd.nextInt(size/2) + 1;
-            }
+            int np = (size == 1) ? 1 : rd.nextInt(size / 2) + 1;
+
             for (int i = 0; i < np; i++) {
-                System.out.println("iteración" + i + " " + nodoMostrador.getData());
-                NodoLista<F> nodoPasajero = pasajeros.eliminarPrim();
-                nodoMostrador.getLista().anadir(nodoPasajero.getData());
-                nodoMostrador = nodoMostrador.getNext();
-                if (nodoMostrador == null) {
-                    nodoMostrador = mostradores.getprimero();
-                }
+                NodoProceso<String, Pasajero> destino = mostradorMasCorto();
+                NodoLista<Pasajero> nodoPasajero = pasajeros.eliminarPrim();
+                destino.getLista().anadir(nodoPasajero.getData());
+                System.out.println("iteración " + i + ": " + nodoPasajero.getData()
+                        + " va a " + destino.getData());
             }
             System.out.println("*** PASAJEROS QUE ACABAN DE LLEGAR AL MOSTRADOR ***");
             mostradores.imprimir();
         }
 
         int nm = rd.nextInt(mostradores.getSize()) + 1;
-        NodoProceso<E, F> mostradorEscogido = mostradores.getNodoxIdx(nm - 1);
-        NodoLista<F> pasajeroAtendido = mostradorEscogido.getLista().eliminarPrim();
+        System.out.println("Numero mostrador " + nm);
+        NodoProceso<String, Pasajero> mostradorEscogido = mostradores.getNodoxIdx(nm - 1);
+        NodoLista<Pasajero> pasajeroAtendido = mostradorEscogido.getLista().eliminarPrim();
+
         if (pasajeroAtendido != null) {
-            System.out.println(pasajeroAtendido.getData() + " fue atendido en mostrador " + mostradorEscogido.getData());
+            Pasajero pa = pasajeroAtendido.getData();
+            System.out.println(pa + " fue atendido en " + mostradorEscogido.getData());
+
+            NodoLista<Maleta> q = LMaletas.getfirst();
+            while (q != null) {
+                NodoLista<Maleta> sig = q.getNext();
+                if (q.getData().getidPasajero() == pa.getId()) {
+                    System.out.println("Maleta " + q.getData() + " retirada de LMaletas");
+                    LMaletas.eliminarxPos(q);
+                }
+                q = sig;
+            }
+            System.out.println("*** MALETAS POR VUELO (LM) ***");
+            LM.imprimir();
         } else {
             System.out.println(mostradorEscogido.getData() + " no tiene pasajeros que atender");
         }

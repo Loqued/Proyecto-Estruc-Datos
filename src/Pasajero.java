@@ -8,6 +8,9 @@ public class Pasajero {
         this.nombre=nombre;
         this.cantmaleta=cantmaleta;
     };
+
+    public int getId() {return id;}
+
     public String toString(){
         return "(id: " + id + " / nombre: " + nombre + " / maletas: " +cantmaleta+")";
     };
