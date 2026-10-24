@@ -68,4 +68,29 @@ public class ListaProcesos<E,F> {
         }
         return p;
     }
+
+    public NodoProceso<E,F> getFilaMasCorta(){
+        if (nohayfila()) return null;
+        NodoProceso<E,F> menor = primero;
+        NodoProceso<E,F> p = primero.getNext();
+        while (p != primero) {
+            if (p.getLista().getSize() < menor.getLista().getSize()) {
+                menor = p;
+            }
+            p = p.getNext();
+        }
+        return menor;
+    }
+
+    public NodoProceso<E,F> buscarxDato(E dato){
+        if (nohayfila()) return null;
+        NodoProceso<E,F> p = primero;
+        do {
+            if (p.getData().equals(dato)) {
+                return p;
+            }
+            p = p.getNext();
+        } while (p != primero);
+        return null;
+    }
 }
