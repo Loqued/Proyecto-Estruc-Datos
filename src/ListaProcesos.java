@@ -93,4 +93,27 @@ public class ListaProcesos<E,F> {
         } while (p != primero);
         return null;
     }
+
+    public NodoProceso<E,F> eliminarProceso(NodoProceso<E,F> nodo) {
+        if (nohayfila() || nodo == null) return null;
+        
+        NodoProceso<E,F> ant = ultimo;
+        NodoProceso<E,F> p = primero;
+        do {
+            if (p == nodo) break;
+            ant = p;
+            p = p.getNext();
+        } while (p != primero);
+        if (p != nodo) return null;
+
+        if (primero == ultimo) {
+            primero = ultimo = null;
+        } else {
+            ant.setNext(nodo.getNext());
+            if (nodo == primero) primero = nodo.getNext();
+            if (nodo == ultimo) ultimo = ant;
+        }
+        nodo.setNext(null);
+        return nodo;
+    }
 }

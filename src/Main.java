@@ -28,5 +28,12 @@ public class Main {
 
         System.out.println("MALETAS POR VUELO");
         LM.imprimir();
+
+        AtencionMostrador am = new AtencionMostrador(LPasajeros, lp, LMaletas, LM);
+
+        am.cerrarMostrador("Mostrador 1");
+        am.cerrarMostrador("Mostrador 2");
+        am.cerrarMostrador("Mostrador 3");
+        lp.imprimir();
     }
 }

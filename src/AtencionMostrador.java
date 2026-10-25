@@ -66,4 +66,33 @@ public class AtencionMostrador {
             q = sig;
         }
     }
+    public boolean cerrarMostrador(String nombre) {
+        if (mostradores.getSize() <= 1) {
+            System.out.println("No se puede cerrar: debe quedar al menos un mostrador");
+            return false;
+        }
+        NodoProceso<String, Pasajero> cerrar = mostradores.buscarxDato(nombre);
+        if (cerrar == null) {
+            System.out.println("No existe el mostrador " + nombre);
+            return false;
+        }
+
+
+        mostradores.eliminarProceso(cerrar);
+
+        ListaEnlazada<Pasajero> fila = cerrar.getLista();
+        if (fila.estavacio()) {
+            System.out.println(nombre + " estaba vacío y fue cerrado");
+            return true;
+        }
+
+        System.out.println("Se cierra " + nombre + " y se redistribuyen sus pasajeros");
+        while (!fila.estavacio()) {
+            NodoLista<Pasajero> n = fila.eliminarPrim();
+            NodoProceso<String, Pasajero> destino = mostradores.getFilaMasCorta();
+            destino.getLista().anadir(n.getData());
+            System.out.println(n.getData() + " pasa a " + destino.getData());
+        }
+        return true;
+    }
 }
