@@ -116,4 +116,60 @@ public class ListaProcesos<E,F> {
         nodo.setNext(null);
         return nodo;
     }
+
+
+    public void anadirxDato(E dato, F cont){
+        NodoProceso<E,F> p = buscarxDato(dato);
+        if (p != null) p.getLista().anadir(cont);
+    }
+
+    public F eliminarxDato(E dato){
+        NodoProceso<E,F> p = buscarxDato(dato);
+        if (p == null) return null;
+        NodoLista<F> q = p.getLista().eliminarPrim();
+        if (q == null) return null;
+        return q.getData();
+    }
+
+    public F revisarPrimeroxDato(E dato){
+        NodoProceso<E,F> p = buscarxDato(dato);
+        if (p == null) return null;
+        return p.getLista().revisarPrimero();
+    }
+
+    public int getSizexDato(E dato){
+        NodoProceso<E,F> p = buscarxDato(dato);
+        if (p == null) return 0;
+        return p.getLista().getSize();
+    }
+
+    public NodoProceso<E,F> removerxDato(E dato){
+        return eliminarProceso(buscarxDato(dato));
+    }
+
+    public int getTotalElementos(){
+        if (nohayfila()) return 0;
+        int total = 0;
+        NodoProceso<E,F> p = primero;
+        do {
+            total = total + p.getLista().getSize();
+            p = p.getNext();
+        } while (p != primero);
+        return total;
+    }
+
+    public NodoProceso<E,F> getFilaMasCortaSin(NodoProceso<E,F> nd){
+        if (nohayfila()) return null;
+        NodoProceso<E,F> menor = null;
+        NodoProceso<E,F> p = primero;
+        do {
+            if (p != nd) {
+                if (menor == null || p.getLista().getSize() < menor.getLista().getSize()) {
+                    menor = p;
+                }
+            }
+            p = p.getNext();
+        } while (p != primero);
+        return menor;
+    }
 }

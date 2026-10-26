@@ -35,5 +35,17 @@ public class Main {
         am.cerrarMostrador("Mostrador 2");
         am.cerrarMostrador("Mostrador 3");
         lp.imprimir();
+
+        lp.getprimero().getLista().anadir(new Pasajero(6, "Luis", 1));
+        am.cerrarMostrador("Mostrador 3");
+        lp.imprimir();
+
+        LM.ingresarnuevoproceso("Vuelo 404", new ListaEnlazada<>());
+        NodoProceso<String, Maleta> vacio = LM.buscarxDato("Vuelo 404");
+        if (vacio.getLista().eliminarPrim() == null) {
+            System.out.println(vacio.getData() + " no tiene maletas que procesar");
+        }
+
+
     }
 }

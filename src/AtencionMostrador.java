@@ -44,6 +44,11 @@ public class AtencionMostrador {
             } else {
                 System.out.println(mostradorEscogido.getData() + " no tiene pasajeros que atender");
             }
+
+            if (rd.nextBoolean()) {
+                int nc = rd.nextInt(mostradores.getSize()) + 1;
+                cerrarMostrador(mostradores.getNodoxIdx(nc - 1).getData());
+            }
         }
     }
 
@@ -77,11 +82,9 @@ public class AtencionMostrador {
             return false;
         }
 
-
-        mostradores.eliminarProceso(cerrar);
-
         ListaEnlazada<Pasajero> fila = cerrar.getLista();
         if (fila.estavacio()) {
+            mostradores.eliminarProceso(cerrar);
             System.out.println(nombre + " estaba vacío y fue cerrado");
             return true;
         }
@@ -89,10 +92,11 @@ public class AtencionMostrador {
         System.out.println("Se cierra " + nombre + " y se redistribuyen sus pasajeros");
         while (!fila.estavacio()) {
             NodoLista<Pasajero> n = fila.eliminarPrim();
-            NodoProceso<String, Pasajero> destino = mostradores.getFilaMasCorta();
+            NodoProceso<String, Pasajero> destino = mostradores.getFilaMasCortaSin(cerrar);
             destino.getLista().anadir(n.getData());
             System.out.println(n.getData() + " pasa a " + destino.getData());
         }
+        mostradores.eliminarProceso(cerrar);
         return true;
     }
 }
