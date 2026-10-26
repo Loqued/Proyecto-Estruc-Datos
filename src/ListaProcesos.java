@@ -126,9 +126,7 @@ public class ListaProcesos<E,F> {
     public F eliminarxDato(E dato){
         NodoProceso<E,F> p = buscarxDato(dato);
         if (p == null) return null;
-        NodoLista<F> q = p.getLista().eliminarPrim();
-        if (q == null) return null;
-        return q.getData();
+        return p.getLista().eliminar();
     }
 
     public F revisarPrimeroxDato(E dato){

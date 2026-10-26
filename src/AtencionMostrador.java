@@ -99,4 +99,38 @@ public class AtencionMostrador {
         mostradores.eliminarProceso(cerrar);
         return true;
     }
+
+    public void procesarVuelo(String nombre) {
+        NodoProceso<String, Maleta> vuelo = vuelos.buscarxDato(nombre);
+        if (vuelo == null) {
+            System.out.println("No existe el vuelo " + nombre);
+            return;
+        }
+        Maleta m = vuelos.eliminarxDato(nombre);
+        if (m == null) {
+            System.out.println(nombre + " no tiene maletas que procesar");
+        } else {
+            System.out.println("Maleta " + m + " procesada en " + nombre);
+        }
+        if (vuelo.getLista().estavacio()) {
+            vuelos.removerxDato(nombre);
+            System.out.println(nombre + " queda vacio y fue eliminado");
+        }
+    }
+
+    public void procesarMaletas() {
+        while (!vuelos.nohayfila()) {
+            int nv = rd.nextInt(vuelos.getSize());
+            procesarVuelo(vuelos.getNodoxIdx(nv).getData());
+        }
+    }
+
+    public void mostrarEstado() {
+        System.out.println("CHECK-IN");
+        mostradores.imprimir();
+        System.out.println("BAGGAGE");
+        vuelos.imprimir();
+        System.out.println("Total pasajeros esperando: " + mostradores.getTotalElementos());
+        System.out.println("Total maletas esperando: " + vuelos.getTotalElementos());
+    }
 }

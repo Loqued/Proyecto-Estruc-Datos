@@ -78,6 +78,12 @@ public class ListaEnlazada<E> {
         return first.getData();
     }
 
+    public E eliminar() {
+        NodoLista<E> q = eliminarPrim();
+        if (q == null) { return null; }
+        return q.getData();
+    }
+
     public NodoLista<E> eliminarPrim() {
         if (estavacio()) { return null; }
         NodoLista<E> q = first;
